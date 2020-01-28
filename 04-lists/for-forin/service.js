@@ -7,10 +7,6 @@ async function obterPessoas(nome){
   return response.data;
 }
 
-obterPessoas('r2')
-  .then((resultado)=> {
-    console.log('resultado', resultado);
-  })
-  .catch((error)=>{
-    console.error('Deu ruim',error);
-  })
+module.exports ={
+  obterPessoas
+};
