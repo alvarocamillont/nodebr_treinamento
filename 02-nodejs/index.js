@@ -44,7 +44,8 @@ async function main() {
   try {
     const usuario = await obterUsuario();
     const telefone = await obterTelefone(usuario.id);
-    const endereco = await obterEnderecoAsync(usuario.id);
+    const endereco = await obterTelefone(usuario.id);
+
     console.log(
       `Nome:${usuario.nome}
       Telefone:(${telefone.ddd}) ${telefone.telefone}
