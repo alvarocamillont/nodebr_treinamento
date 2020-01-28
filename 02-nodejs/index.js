@@ -3,6 +3,10 @@
  1 Obter o numero de telefone a partir do seu ID
  2 Obter o endereço do usuario pelo id
 */
+// importamos um módulo interno do node.js
+const util = require('util');
+const obterEnderecoAsync = util.promisify(obterEndereco);
+
 function obterUsuario() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -26,15 +30,13 @@ function obterTelefone(idUsuario) {
   });
 }
 
-function obterEndereco(idUsuario) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      return resolve({
-        rua: 'av boschetti',
-        numero: 1110
-      });
-    }, 2000);
-  });
+function obterEndereco(idUsuario, callback) {
+  setTimeout(() => {
+    return callback(null, {
+      rua: 'av boschetti',
+      numero: 1110
+    });
+  }, 2000);
 }
 
 const usuarioPromise = obterUsuario();
@@ -49,6 +51,10 @@ usuarioPromise
         telefone: telefone
       };
     });
+  })
+  .then((resultado) => {
+    const endereco = obterEnderecoAsync(resultado.usuario.id);
+    return endereco;
   })
   .then((resultado) => {
     console.log(resultado);
