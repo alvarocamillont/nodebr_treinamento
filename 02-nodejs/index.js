@@ -39,6 +39,23 @@ function obterEndereco(idUsuario, callback) {
   }, 2000);
 }
 
+main();
+async function main() {
+  try {
+    const usuario = await obterUsuario();
+    const telefone = await obterTelefone(usuario.id);
+    const endereco = await obterEnderecoAsync(usuario.id);
+    console.log(
+      `Nome:${usuario.nome}
+      Telefone:(${telefone.ddd}) ${telefone.telefone}
+      Endereço: ${endereco.rua}, ${endereco.numero}`
+    );
+  } catch (error) {
+    console.error(`Deu ruim ${error}`);
+  }
+}
+
+/*
 const usuarioPromise = obterUsuario();
 usuarioPromise
   .then((usuario) => {
@@ -62,7 +79,7 @@ usuarioPromise
   .catch((error) => {
     console.error('Deu ruim', error);
   });
-
+*/
 /*
 obterUsuario((erro, usuario) => {
   if (erro) {
