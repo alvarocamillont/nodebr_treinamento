@@ -3,7 +3,7 @@ const { obterPessoas } = require('./service');
 const nock = require('nock');
 
 describe('Star Wars Tests', () => {
-  this.beforeAll(() => {
+  beforeEach(() => {
     const response = {
       results: [
         {
@@ -18,6 +18,9 @@ describe('Star Wars Tests', () => {
         }
       ]
     };
+    nock(`https://swapi.co/api/people`)
+      .get('/?search=r2-d2&format=json')
+      .reply(200, response);
   });
 
   it('deve buscar o r2d2 com o formato correto', async () => {
