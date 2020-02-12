@@ -20,39 +20,47 @@ class Postgres extends ICrud {
   }
 
   _connect() {
-    this._driver = new Sequelize('heroes', 'alvaro', 'senha123', {
-      host: 'localhost',
-      dialect: 'postgres',
-      quoteIdentifiers: false,
-      operatorsAliases: false
-    });
+    this._driver = new Sequelize(
+      'heroes', //database
+      'alvaro', // user
+      'senha123', //senha
+      {
+        host: 'localhost',
+        dialect: 'postgres',
+        quoteIdentifiers: false
+        },
+    );
+
+    this.defineModel();
   }
 
-  defineModel() {
+  async defineModel() {
     this._herois = this._driver.define(
-      'herois',
+      'heroes',
       {
         id: {
           type: Sequelize.INTEGER,
           required: true,
           primaryKey: true,
-          autoIncrement: true
+          autoIncrement: true,
         },
         nome: {
           type: Sequelize.STRING,
-          required: true
+          required: true,
         },
         poder: {
           type: Sequelize.STRING,
-          required: true
-        }
+          required: true,
+        },
       },
       {
+        //opcoes para base existente
         tableName: 'TB_HEROIS',
         freezeTableName: false,
-        timestamps: false
-      }
+        timestamps: false,
+      },
     );
+
     await this._herois.sync();
   }
 
