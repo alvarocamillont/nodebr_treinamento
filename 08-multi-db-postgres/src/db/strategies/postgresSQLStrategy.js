@@ -32,7 +32,7 @@ class PostgreSQLStrategy extends IDb {
       },
       {
         //opcoes para base existente
-        tableName: 'TB_HEROIS',
+        tableName: 'tb_herois',
         freezeTableName: false,
         timestamps: false,
       },
