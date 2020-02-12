@@ -1,30 +1,23 @@
-
-const ICrud = require('../interfaces/interfaceCrud')
-
-class ContextStrategy extends ICrud{
-  constructor(strategy) {
+const IDb = require('./interfaceDb');
+class ContextStrategy extends IDb {
+  constructor(database) {
     super();
-    this._database = strategy;
+    this._database = database;
   }
-
-  create(item){
+  isConnected() {
+    return this._database.isConnected();
+  }
+  create(item) {
     return this._database.create(item);
   }
-
-  read(query){
-    return this._database.read(query);
+  read(item) {
+    return this._database.read(item);
   }
-
-  update(id, item){
+  update(id, item) {
     return this._database.update(id, item);
   }
-
-  delete(id){
+  delete(id) {
     return this._database.delete(id);
-  }
-
-  isConnected(){
-    this._database.isConnected();
   }
 }
 
