@@ -37,4 +37,9 @@ describe('MongoDB Strategy', () => {
     const result = await context.update(MOCK_HEROI_ID, { nome: 'Pernalonga' });
     deepEqual(result.nModified, 1);
   });
+
+  it('remover', async () => {
+    const result = await context.delete(MOCK_HEROI_ID);
+    deepEqual(result.n, 1);
+  });
 });
