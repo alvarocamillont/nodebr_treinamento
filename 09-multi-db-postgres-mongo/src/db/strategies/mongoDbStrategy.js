@@ -54,12 +54,11 @@ class MongoDBStrategy extends IDb {
 
     this._driver = Mongoose.connection;
     this._driver.once('open', () => console.log('Database rodando!!'));
+    this.defineModel();
   }
 
   async create(item) {
-    const resultCadastrar = await model.create(item);
-
-    return resultCadastrar;
+    return this._herois.create(item);
   }
 }
 

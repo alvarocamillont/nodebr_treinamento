@@ -15,4 +15,9 @@ describe('MongoDB Strategy', () => {
     const expected = 'Conectado';
     deepEqual(result, expected);
   });
+
+  it('cadastrar', async () => {
+    const { nome, poder } = await context.create(MOCK_HEROI_CADASTRAR);
+    deepEqual({ nome, poder }, MOCK_HEROI_CADASTRAR);
+  });
 });
