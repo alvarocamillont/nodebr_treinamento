@@ -20,6 +20,9 @@ class IDb {
   isConnected(id) {
     throw new NotImplementedException();
   }
+  connect() {
+    throw new NotImplementedException();
+  }
 }
 
 module.exports = IDb;

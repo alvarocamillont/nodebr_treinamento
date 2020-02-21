@@ -19,6 +19,10 @@ class ContextStrategy extends IDb {
   delete(id) {
     return this._database.delete(id);
   }
+
+  connect() {
+    this._database.connect();
+  }
 }
 
 module.exports = ContextStrategy;
