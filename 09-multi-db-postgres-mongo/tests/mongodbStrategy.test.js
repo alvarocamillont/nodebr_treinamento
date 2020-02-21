@@ -5,11 +5,15 @@ const MOCK_HEROI_CADASTRAR = { nome: 'Gaviao Negro', poder: 'flexas' };
 const MOCK_HEROI_ATUALIZAR = { nome: 'Mulher Gavião', poder: 'grito' };
 const MOCK_HEROI_DEFAULT = { nome: `Homem Aranha-${Date.now()}`, poder: 'Super Teia' };
 
+let MOCK_HEROI_ID = '';
+
 const context = new Context(new MongoDBStrategy());
 describe('MongoDB Strategy', () => {
   before(async () => {
     await context.connect();
     await context.create(MOCK_HEROI_DEFAULT);
+    const result = await context.create(MOCK_HEROI_ATUALIZAR);
+    MOCK_HEROI_ID = result._id;
   });
 
   it('verificar conexao', async () => {
@@ -27,5 +31,10 @@ describe('MongoDB Strategy', () => {
     const [{ nome, poder }] = await context.read({ nome: MOCK_HEROI_DEFAULT.nome }, 0, 1);
     const result = { nome, poder };
     deepEqual(result, MOCK_HEROI_DEFAULT);
+  });
+
+  it('atualizar', async () => {
+    const result = await context.update(MOCK_HEROI_ID, { nome: 'Pernalonga' });
+    deepEqual(result.nModified, 1);
   });
 });
