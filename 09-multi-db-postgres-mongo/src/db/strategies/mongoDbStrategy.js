@@ -60,6 +60,13 @@ class MongoDBStrategy extends IDb {
   async create(item) {
     return this._herois.create(item);
   }
+
+  async read(item, skip = 0, limit = 10) {
+    return this._herois
+      .find(item)
+      .skip(skip)
+      .limit(limit);
+  }
 }
 
 module.exports = MongoDBStrategy;
