@@ -1,48 +1,21 @@
 const IDb = require('../base/interfaceDb');
 const Sequelize = require('sequelize');
-class PostgreSQLConnection {
-  static connect() {}
-}
+
 class PostgreSQLStrategy extends IDb {
-  constructor() {
+  constructor(connection, schema) {
     super();
-    this._herois = null;
-    this._sequelize = null;
-    this._connect();
+    this._schema = schema;
+    this._connection = connection;
   }
 
-  async defineModel() {
-    this._herois = this._sequelize.define(
-      'herois',
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          required: true,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        nome: {
-          type: Sequelize.STRING,
-          required: true,
-        },
-        poder: {
-          type: Sequelize.STRING,
-          required: true,
-        },
-      },
-      {
-        //opcoes para base existente
-        tableName: 'tb_herois',
-        freezeTableName: false,
-        timestamps: false,
-      },
-    );
-
-    await this._herois.sync();
+  static async defineModel(connection, schema) {
+    const model = connection.define(schema.name, schema.schema, schema.options);
+    await model.sync();
+    return model;
   }
 
-  _connect() {
-    this._sequelize = new Sequelize(
+  static async connect() {
+    const connection = new Sequelize(
       'herois', //database
       'alvaro', // user
       'senha123', //senha
@@ -52,20 +25,21 @@ class PostgreSQLStrategy extends IDb {
         // case sensitive
         quoteIdentifiers: false,
         // deprecation warning
-        operatorsAliases: false
+        operatorsAliases: false,
+        logging: false
 
         // dialectOptions: {
         //   ssl: true,
-        },
+      }
     );
 
-    this.defineModel();
+    return connection;
   }
 
   async isConnected() {
     try {
       // await this._connect();
-      await this._sequelize.authenticate();
+      await this._connection.authenticate();
       return true;
     } catch (error) {
       console.error('fail!', error);
@@ -74,19 +48,19 @@ class PostgreSQLStrategy extends IDb {
   }
 
   create(item) {
-    return this._herois.create(item, { raw: true });
+    return this._schema.create(item, { raw: true });
   }
 
   read(item) {
-    return this._herois.findAll({ where: item, raw: true });
+    return this._schema.findAll({ where: item, raw: true });
   }
 
   update(id, item) {
-    return this._herois.update(item, { where: { id } });
+    return this._schema.update(item, { where: { id } });
   }
   delete(id) {
     const query = id ? { id } : {};
-    return this._herois.destroy({ where: query });
+    return this._schema.destroy({ where: query });
   }
 }
 

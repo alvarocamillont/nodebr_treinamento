@@ -3,11 +3,15 @@ const PostgresStrategy = require('../src/db/strategies/postgres/postgresSQLStrat
 const Context = require('../src/db/strategies/base/contextStrategy');
 const MOCK_HEROI_CADASTRAR = { nome: 'Gaviao Negro', poder: 'flexas' };
 const MOCK_HEROI_ATUALIZAR = { nome: 'Mulher Gavião', poder: 'grito' };
+const HeroisSchema = require('../src/db/strategies/postgres/schema/heroisSchema');
 
-const context = new Context(new PostgresStrategy());
+let context = {};
 describe('PostgreSQL Strategy', function() {
   this.timeout(Infinity);
   before(async () => {
+    const connection = await PostgresStrategy.connect();
+    const model = await PostgresStrategy.defineModel(connection, HeroisSchema);
+    context = new Context(new PostgresStrategy(connection, model));
     await context.delete();
     await context.create(MOCK_HEROI_CADASTRAR);
     await context.create(MOCK_HEROI_ATUALIZAR);
