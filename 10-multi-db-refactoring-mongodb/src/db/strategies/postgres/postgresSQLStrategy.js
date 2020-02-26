@@ -1,4 +1,4 @@
-const IDb = require('./base/interfaceDb');
+const IDb = require('../base/interfaceDb');
 const Sequelize = require('sequelize');
 class PostgreSQLConnection {
   static connect() {}
