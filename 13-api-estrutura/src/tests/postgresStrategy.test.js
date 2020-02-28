@@ -1,9 +1,9 @@
 const { equal, deepEqual, ok } = require('assert');
-const PostgresStrategy = require('../src/db/strategies/postgres/postgresSQLStrategy');
-const Context = require('../src/db/strategies/base/contextStrategy');
+const PostgresStrategy = require('../db/strategies/postgres/postgresSQLStrategy');
+const Context = require('../db/strategies/base/contextStrategy');
 const MOCK_HEROI_CADASTRAR = { nome: 'Gaviao Negro', poder: 'flexas' };
 const MOCK_HEROI_ATUALIZAR = { nome: 'Mulher Gavião', poder: 'grito' };
-const HeroisSchema = require('../src/db/strategies/postgres/schema/heroisSchema');
+const HeroisSchema = require('../db/strategies/postgres/schema/heroisSchema');
 
 let context = {};
 describe('PostgreSQL Strategy', function() {

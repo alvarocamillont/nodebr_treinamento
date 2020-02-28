@@ -1,10 +1,10 @@
 const { equal, deepEqual, ok } = require('assert');
-const MongoDBStrategy = require('../src/db/strategies/mongodb/mongoDbStrategy');
-const Context = require('../src/db/strategies/base/contextStrategy');
+const MongoDBStrategy = require('../db/strategies/mongodb/mongoDbStrategy');
+const Context = require('../db/strategies/base/contextStrategy');
 const MOCK_HEROI_CADASTRAR = { nome: 'Gaviao Negro', poder: 'flexas' };
 const MOCK_HEROI_ATUALIZAR = { nome: 'Mulher Gavião', poder: 'grito' };
 const MOCK_HEROI_DEFAULT = { nome: `Homem Aranha-${Date.now()}`, poder: 'Super Teia' };
-const HeroisSchema = require('../src/db/strategies/mongodb/schemas/heroisSchema');
+const HeroisSchema = require('../db/strategies/mongodb/schemas/heroisSchema');
 
 let MOCK_HEROI_ID = '';
 
