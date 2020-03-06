@@ -32,15 +32,15 @@ describe('Suite de testes da API Heroes',()=>{
     assert.ok(dados.length === TAMANHO_LIMITE )
   })
 
-  it('lista/herois - deve retornar somente 3 registros', async ()=>{
+  it('lista/herois - deve validar os parametros', async ()=>{
     const TAMANHO_LIMITE = "AEEE"
     const result = await app.inject({
       method:'GET',
       url:`/herois?skip=0&limit=${TAMANHO_LIMITE}`
     })
 
-
-    assert.deepEqual(result.payload,'Erro interno no servidor');
+    const statusCode = result.statusCode;
+    assert.deepEqual(statusCode,400);
   })
 
   it('lista/herois - deve filtrar um item', async ()=>{

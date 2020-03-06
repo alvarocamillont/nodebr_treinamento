@@ -1,4 +1,5 @@
 const BaseRoute = require('./base/baseRoute')
+const Joi = require('joi');
 
 class HeroRoutes extends BaseRoute{
   constructor(db) {
@@ -10,14 +11,31 @@ class HeroRoutes extends BaseRoute{
     return {
       path:'/herois',
       method:'GET',
-      handler:(request, head)=>{
+      config:{
+        validate:{
+          failAction:(request,header,erro)=>{
+            throw erro;
+          },
+          query: {
+            skip:Joi.number().integer().default(0),
+            limit:Joi.number().integer().default(10),
+            nome:Joi.string().min(3).max(100)
+          }
+        }
+      },
+      handler:(request, header)=>{
         try {
-          const {skip,limit,nome} = request.query
-          const query = nome ? {nome}: {}
-          if (skip && isNaN(skip)) throw Error('Skip deve ser um número')
-          if (limit && isNaN(limit)) throw Error('Limit deve ser um número')
+          const {skip,limit,nome} = request.query;
 
-          return this.db.read(query,parseInt(skip),parseInt(limit));
+          const query = nome ?
+          {nome:
+            {
+              $regex:`.*${nome}*.`
+            }
+          }: {};
+
+          return this.db.read(query,skip,limit);
+
         } catch (error) {
           console.log('Deu Ruim', error)
           return 'Erro interno no servidor'
