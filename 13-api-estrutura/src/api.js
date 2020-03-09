@@ -8,6 +8,8 @@ const AuthRoutes = require('../src/routes/authRoutes');
 const HapiSwagger = require('hapi-swagger');
 const Inert = require('inert');
 const Vision = require('vision');
+const HapiJwt = require('hapi-auth-jwt2');
+
 const JWT_SECRET = 'MEU_SEGREDAO';
 
 const swaggerConfig = {
@@ -31,6 +33,7 @@ async function main() {
   const context = new Context(new MongoDBStrategy(connection, HeroSchema));
 
   await app.register([
+    HapiJwt,
     Inert,
     Vision,
     {
@@ -38,6 +41,22 @@ async function main() {
       options: swaggerConfig
     }
   ]);
+
+  app.auth.strategy('jwt', 'jwt', {
+    key: JWT_SECRET,
+    //options: {
+    //  expiresIn: 20
+    //},
+    validate: (dado, request) => {
+      // verifica no banco se o usuário continua válido
+      // verifica no banco se o usuário continua pagando
+      return {
+        isValid: true
+      };
+    }
+  });
+
+  app.auth.default('jwt');
 
   app.route([
     ...mapRoutes(new HeroRoutes(context), HeroRoutes.methods()),
