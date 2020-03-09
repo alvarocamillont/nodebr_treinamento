@@ -3,10 +3,12 @@ const Context = require('../src/db/strategies/base/contextStrategy');
 const MongoDBStrategy = require('../src/db/strategies/mongodb/mongoDbStrategy');
 const HeroSchema = require('../src/db/strategies/mongodb/schemas/heroisSchema');
 const HeroRoutes = require('../src/routes/heroRoutes');
+const AuthRoutes = require('../src/routes/authRoutes');
 
 const HapiSwagger = require('hapi-swagger');
 const Inert = require('inert');
 const Vision = require('vision');
+const JWT_SECRET = 'MEU_SEGREDAO';
 
 const swaggerConfig = {
   info: {
@@ -36,7 +38,11 @@ async function main() {
       options: swaggerConfig
     }
   ]);
-  app.route([...mapRoutes(new HeroRoutes(context), HeroRoutes.methods())]);
+
+  app.route([
+    ...mapRoutes(new HeroRoutes(context), HeroRoutes.methods()),
+    ...mapRoutes(new AuthRoutes(JWT_SECRET), AuthRoutes.methods())
+  ]);
 
   await app.start();
   console.log('server running at', app.info.port);
