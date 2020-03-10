@@ -12,6 +12,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "hapi": "^17.7.0",
     "hapi-auth-jwt2": "^9.0.1",
     "hapi-swagger": "^9.1.3",
