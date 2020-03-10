@@ -34,10 +34,23 @@ describe('Auth test suit', () => {
     });
 
     const dados = JSON.parse(result.payload);
-    console.log(dados);
     const statusCode = result.statusCode;
 
     assert.deepEqual(statusCode, 200);
     assert.ok(dados.token.length > 10);
+  });
+
+  it('deve retornar nao autorizado quando a senha estiver errada', async () => {
+    const result = await app.inject({
+      method: 'POST',
+      url: '/login',
+      payload: { ...USER, password: 'sss' }
+    });
+
+    const dados = JSON.parse(result.payload);
+    const statusCode = result.statusCode;
+
+    assert.deepEqual(statusCode, 401);
+    assert.deepEqual(dados.error, 'Unauthorized');
   });
 });
