@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha src/tests/*.test.js"
+    "test": "nyc --reporter=html mocha --exit src/tests/*.test.js"
   },
   "author": "erickwendel",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^15.0.0"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
